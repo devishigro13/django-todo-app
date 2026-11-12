@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@
             My To-Do App
         {% endblock %}
     </title>
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
 </head>
 <body>
     <header>
@@ -22,7 +24,6 @@
     </header>
      <main>
         {% block content %}
-        
         {% endblock %}
     </main>
     <footer>
