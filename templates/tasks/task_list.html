@@ -1,0 +1,48 @@
+
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+    My Tasks | To-Do App
+{% endblock %}
+
+{% block content %}
+
+    <h2>My Tasks</h2>
+
+    <p>Here are all your tasks.</p>
+
+    <!-- ADD NEW TASK BUTTON -->
+    <a href="{% url 'add_task' %}">Add New Task</a>
+
+    <br><br>
+
+    <!-- DISPLAY ALL TASKS -->
+    {% for task in tasks %}
+
+        <div class="task-card">
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.description }}</p>
+            <p>
+                Created: {{ task.created_at }}
+            </p>
+            <p>
+                Due Date: {{ task.due_date|default:"No due date" }}
+            </p>
+
+            {% if task.is_completed %}
+                <p>Completed</p>
+            {% else %}
+                <p>Pending</p>
+            {% endif %}
+            <a href="{% url 'edit_task' task.id %}">Edit</a>
+        </div>
+
+        <hr>
+
+    {% empty %}
+
+        <p>No tasks available. Add your first task!</p>
+
+    {% endfor %}
+
+{% endblock %}

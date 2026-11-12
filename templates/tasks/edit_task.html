@@ -1,0 +1,51 @@
+
+{% extends 'tasks/base.html' %}
+
+{% block title %}
+    Edit Task | To-Do App
+{% endblock %}
+
+{% block content %}
+
+    <h2>Edit Task</h2>
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Task Title:</label>
+
+        <input
+            type="text"
+            name="title"
+            value="{{ task.title }}"
+            required
+        >
+
+        <br><br>
+
+        <label>Description:</label>
+
+        <textarea name="description">{{ task.description }}</textarea>
+
+        <br><br>
+
+        <label>Due Date:</label>
+
+        <input
+            type="date"
+            name="due_date"
+            value="{{ task.due_date|date:'Y-m-d' }}"
+        >
+
+        <br><br>
+
+        <button type="submit">Save Changes</button>
+
+    </form>
+
+{% endblock %}
