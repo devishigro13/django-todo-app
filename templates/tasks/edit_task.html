@@ -1,51 +1,56 @@
 
 {% extends 'tasks/base.html' %}
 
-{% block title %}
-    Edit Task | To-Do App
-{% endblock %}
+{% block title %}Edit Task | TaskFlow{% endblock %}
 
 {% block content %}
 
-    <h2>Edit Task</h2>
+<div class="form-card">
+
+    <p class="eyebrow">UPDATE TASK</p>
+    <h1>Edit Task</h1>
+    <p>Make changes to your task below.</p>
 
     {% if error %}
-        <p>{{ error }}</p>
+        <div class="message error">{{ error }}</div>
     {% endif %}
 
     <form method="POST">
-
         {% csrf_token %}
 
-        <label>Task Title:</label>
-
+        <label for="title">Task Title</label>
         <input
             type="text"
+            id="title"
             name="title"
+            maxlength="200"
             value="{{ task.title }}"
             required
         >
 
-        <br><br>
+        <label for="description">Description</label>
+        <textarea
+            id="description"
+            name="description"
+            rows="5"
+        >{{ task.description }}</textarea>
 
-        <label>Description:</label>
-
-        <textarea name="description">{{ task.description }}</textarea>
-
-        <br><br>
-
-        <label>Due Date:</label>
-
+        <label for="due_date">Due Date</label>
         <input
             type="date"
+            id="due_date"
             name="due_date"
             value="{{ task.due_date|date:'Y-m-d' }}"
         >
 
-        <br><br>
+        <button type="submit" class="btn btn-primary">
+            Save Changes
+        </button>
 
-        <button type="submit">Save Changes</button>
+        <a href="{% url 'task_list' %}" class="cancel-link">Cancel</a>
 
     </form>
+
+</div>
 
 {% endblock %}

@@ -1,37 +1,66 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        {% block title %}
-            My To-Do App
-        {% endblock %}
-    </title>
+
+    <title>{% block title %}TaskFlow{% endblock %}</title>
+
     <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
 </head>
 <body>
-    <header>
-        <h1>My To-Do App</h1>
-        <nav>
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'task_list' %}">My Tasks</a>
-        </nav>
-        <nav>
-            <!-- <a href="/">Home</a> -->
-            <!-- <a href="/tasks/">My Tasks</a> -->
-            <a href="/completed/">Completed Tasks</a>
-            <a href="/login/">Login</a>
-            <a href="/signup/">Sign Up</a>
-        </nav>
+
+    <header class="site-header">
+        <div class="container navbar">
+            <a href="{% url 'home' %}" class="logo">TaskFlow</a>
+
+            <nav>
+                <a href="{% url 'home' %}">Home</a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'task_list' %}">My Tasks</a>
+                    <a href="{% url 'completed_tasks' %}">Completed</a>
+                    <a href="{% url 'add_task' %}">Add Task</a>
+
+                    <span class="welcome-text">
+                        Hi, {{ user.username }}
+                    </span>
+
+                    <form method="POST" action="{% url 'logout' %}" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-button">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'signup' %}" class="nav-signup">Sign Up</a>
+                {% endif %}
+            </nav>
+        </div>
     </header>
-     <main>
+
+    <main class="container main-content">
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         {% block content %}
         {% endblock %}
+
     </main>
-    <footer>
-        <p>© 2026 My To-Do App. All rights reserved.</p>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>TaskFlow — Organize your day, one task at a time.</p>
+            <p>&copy; 2026 TaskFlow. All rights reserved.</p>
+        </div>
     </footer>
+
 </body>
 </html>

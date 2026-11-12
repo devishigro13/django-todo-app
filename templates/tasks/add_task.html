@@ -1,39 +1,58 @@
 
 {% extends 'tasks/base.html' %}
 
-{% block title %}
-    Add Task | To-Do App
-{% endblock %}
+{% block title %}Add Task | TaskFlow{% endblock %}
 
 {% block content %}
 
-    <h2>Add a New Task</h2>
+<div class="form-card">
+
+    <p class="eyebrow">NEW TASK</p>
+    <h1>Create a Task</h1>
+    <p>Add something you want to get done.</p>
 
     {% if error %}
-        <p>{{ error }}</p>
+        <div class="message error">{{ error }}</div>
     {% endif %}
 
     <form method="POST">
-
         {% csrf_token %}
 
-        <label>Task Title:</label>
-        <input type="text" name="title" required>
+        <label for="title">Task Title</label>
+        <input
+            type="text"
+            id="title"
+            name="title"
+            maxlength="200"
+            value="{{ request.POST.title|default:'' }}"
+            placeholder="Enter your task title"
+            required
+        >
 
-        <br><br>
+        <label for="description">Description</label>
+        <textarea
+            id="description"
+            name="description"
+            rows="5"
+            placeholder="Add more details (optional)"
+        >{{ request.POST.description|default:'' }}</textarea>
 
-        <label>Description:</label>
-        <textarea name="description"></textarea>
+        <label for="due_date">Due Date</label>
+        <input
+            type="date"
+            id="due_date"
+            name="due_date"
+            value="{{ request.POST.due_date|default:'' }}"
+        >
 
-        <br><br>
+        <button type="submit" class="btn btn-primary">
+            Save Task
+        </button>
 
-        <label>Due Date:</label>
-        <input type="date" name="due_date">
-
-        <br><br>
-
-        <button type="submit">Add Task</button>
+        <a href="{% url 'task_list' %}" class="cancel-link">Cancel</a>
 
     </form>
+
+</div>
 
 {% endblock %}

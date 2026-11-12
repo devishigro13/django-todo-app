@@ -1,48 +1,88 @@
 
 {% extends 'tasks/base.html' %}
 
-{% block title %}
-    My Tasks | To-Do App
-{% endblock %}
+{% block title %}My Tasks | TaskFlow{% endblock %}
 
 {% block content %}
 
-    <h2>My Tasks</h2>
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">YOUR WORKSPACE</p>
+        <h1>My Tasks</h1>
+        <p>Keep track of everything you need to do.</p>
+    </div>
 
-    <p>Here are all your tasks.</p>
+    <a href="{% url 'add_task' %}" class="btn btn-primary">+ Add New Task</a>
+</div>
 
-    <!-- ADD NEW TASK BUTTON -->
-    <a href="{% url 'add_task' %}">Add New Task</a>
+<div class="task-list">
 
-    <br><br>
-
-    <!-- DISPLAY ALL TASKS -->
     {% for task in tasks %}
 
         <div class="task-card">
-            <h3>{{ task.title }}</h3>
-            <p>{{ task.description }}</p>
-            <p>
-                Created: {{ task.created_at }}
-            </p>
-            <p>
-                Due Date: {{ task.due_date|default:"No due date" }}
+
+            <div class="task-card-top">
+                <div>
+                    <h3>
+                        <a href="{% url 'task_detail' task.id %}">
+                            {{ task.title }}
+                        </a>
+                    </h3>
+
+                    <p>{{ task.description|default:"No description added." }}</p>
+                </div>
+
+                <span class="status pending">Pending</span>
+            </div>
+
+            <p class="task-date">
+                Created: {{ task.created_at|date:"d M Y" }}
             </p>
 
-            {% if task.is_completed %}
-                <p>Completed</p>
-            {% else %}
-                <p>Pending</p>
-            {% endif %}
-            <a href="{% url 'edit_task' task.id %}">Edit</a>
+            <p class="task-date">
+                Due: {{ task.due_date|date:"d M Y"|default:"No due date" }}
+            </p>
+
+            <div class="task-actions">
+
+                <a href="{% url 'task_detail' task.id %}" class="action-link">
+                    Details
+                </a>
+
+                <a href="{% url 'edit_task' task.id %}" class="action-link">
+                    Edit
+                </a>
+
+                <form method="POST" action="{% url 'toggle_task_status' task.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="action-button complete-button">
+                        Mark Completed
+                    </button>
+                </form>
+
+                <form method="POST"
+                      action="{% url 'delete_task' task.id %}"
+                      onsubmit="return confirm('Are you sure you want to delete this task?');">
+                    {% csrf_token %}
+                    <button type="submit" class="action-button delete-button">
+                        Delete
+                    </button>
+                </form>
+
+            </div>
+
         </div>
-
-        <hr>
 
     {% empty %}
 
-        <p>No tasks available. Add your first task!</p>
+        <div class="empty-state">
+            <h3>No pending tasks!</h3>
+            <p>You are all caught up. Add a new task when you need to.</p>
+            <a href="{% url 'add_task' %}" class="btn btn-primary">Create Task</a>
+        </div>
 
     {% endfor %}
+
+</div>
 
 {% endblock %}

@@ -1,0 +1,54 @@
+
+{% extends 'tasks/base.html' %}
+
+{% block title %}Sign Up | TaskFlow{% endblock %}
+
+{% block content %}
+
+<div class="form-card auth-card">
+
+    <p class="eyebrow">JOIN TASKFLOW</p>
+    <h1>Create Your Account</h1>
+    <p>Start organizing your day.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="message error">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+
+            <label for="{{ field.id_for_label }}">
+                {{ field.label }}
+            </label>
+
+            {{ field }}
+
+            {% if field.help_text %}
+                <small class="help-text">{{ field.help_text|safe }}</small>
+            {% endif %}
+
+            {% for error in field.errors %}
+                <p class="field-error">{{ error }}</p>
+            {% endfor %}
+
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">
+            Create Account
+        </button>
+
+    </form>
+
+    <p class="auth-switch">
+        Already have an account?
+        <a href="{% url 'login' %}">Login</a>
+    </p>
+
+</div>
+
+{% endblock %}
