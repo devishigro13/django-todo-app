@@ -145,11 +145,11 @@ Screenshots of TaskFlow will be added here.
 
 | Home | My Tasks |
 |---|---|
-| Add screenshot | Add screenshot |
+| <img width="1350" height="963" alt="image" src="https://github.com/user-attachments/assets/1d92f289-89ec-4ae6-825c-0e9ba33f56c4" /> |<img width="1347" height="943" alt="image" src="https://github.com/user-attachments/assets/a8c15f63-b9f1-45cb-8801-fdbc337b1408" />|
 
 | Completed Tasks | Login |
 |---|---|
-| Add screenshot | Add screenshot |
+| <img width="1351" height="972" alt="image" src="https://github.com/user-attachments/assets/cc822d5e-6b1d-4d08-b5e3-0205ab3758e1" />|<img width="1352" height="957" alt="image" src="https://github.com/user-attachments/assets/508e95f8-0110-4d33-a882-4e3c1dfcc957" />| 
 
 ## WHAT THIS PROJECT TAUGHT ME
 
